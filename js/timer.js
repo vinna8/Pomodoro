@@ -5,7 +5,7 @@ const secondsElem = document.querySelector('.time__seconds');
 
 const audio = new Audio('audio/eralash.mp3')
 
-const showTimer = (seconds) => {
+export const showTimer = (seconds) => {
     const CurrentMinutes = Math.floor(seconds / 60);
     const CurrentSeconds = seconds % 60;
     
@@ -18,7 +18,7 @@ const alarm = () => {
 }
 
 export const startTimer = () => {
-    state.timeLeft -= 5;
+    state.timeLeft -= 5; //1
 
     showTimer(state.timeLeft);
     
