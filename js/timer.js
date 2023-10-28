@@ -20,31 +20,36 @@ const alarm = () => {
 }
 
 export const startTimer = () => {
-    state.timeLeft -= 5; //1
+    state.timerId = setInterval(() => {
+        state.timeLeft -= 1; 
+        showTimer(state.timeLeft);
 
-    showTimer(state.timeLeft);
-    
-    if (state.timeLeft > 0 && state.isActive) {
-        state.timerId = setTimeout(startTimer, 1000);
-    }
+        if (state.timeLeft > 0 && state.isActive) {
+            return;
+        }
 
-    if (state.timeLeft <= 0) {
+        clearTimeout(state.timerId);
+
         if (state.status === 'work') {
             state.activeTodo.pomodoro += 1;
             updateTodo(state.activeTodo);
             showTodo();
             if (state.activeTodo.pomodoro % state.count) {
                 state.status = 'break';
+                showTimer(state.break * 60);
             } else {
                 state.status = 'relax';
+                showTimer(state.relax * 60);
             }
         } else {
             state.status = 'work';
+            showTimer(state.work * 60);
         }
-
+    
         alarm();
         state.timeLeft = state[state.status] * 60;
         changeActiveBtn(state.status);
+        showTodo();
         startTimer();
-    }
+    }, 1000)
 }

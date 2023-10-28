@@ -1,5 +1,6 @@
 import { changeActiveBtn, stopBtn } from "./control.js";
 import { state } from "./state.js";
+import { showTimer } from "./timer.js";
 
 const titleElem = document.querySelector('.title');
 const countElem = document.querySelector('.count_num');
@@ -32,6 +33,11 @@ const addTodo = (title) => {
 
 export const updateTodo = (todo) => {
     const todoList = getTodo();
+
+    if (!todoList.length) {
+        return;
+    }
+
     const todoItem = todoList.find((item) => item.id === todo.id);
     todoItem.title = todo.title;
     todoItem.pomodoro = todo.pomodoro;
@@ -42,7 +48,7 @@ const deleteTodo = (todo) => {
     const todoList = getTodo();
     const newTodoList = todoList.filter((item) => item.id !== todo.id);
     if (todo.id === state.activeTodo.id) {
-    state.activeTodo = newTodoList[newTodoList.length - 1];
+        state.activeTodo = newTodoList[newTodoList.length - 1];
     }
     localStorage.setItem('pomodoro', JSON.stringify(newTodoList));
 }
@@ -107,6 +113,8 @@ export const showTodo = () => {
     } else {
         titleElem.textContent = 'Нет задач для выполнения';
         countElem.textContent = 0;
+        changeActiveBtn('work');
+        showTimer(state.work * 60); 
     }
 }
 
