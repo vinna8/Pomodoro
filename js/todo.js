@@ -30,6 +30,14 @@ const addTodo = (title) => {
     return todo;
 }
 
+const updateTodo = (todo) => {
+    const todoList = getTodo();
+    const todoItem = todoList.find((item) => item.id === todo.id);
+    todoItem.title = todo.title;
+    todoItem.pomodoro = todo.pomodoro;
+    localStorage.setItem('pomodoro', JSON.stringify(todoList));
+}
+
 const createTodoListItem = (todo) => {
     if (todo.id !== 'default') {
         const todoItem = document.createElement('li');
@@ -60,6 +68,13 @@ const createTodoListItem = (todo) => {
             showTodo();
             changeActiveBtn('work');
             stopBtn();
+        });
+
+        editBtn.addEventListener('click', () => {
+            todo.title = prompt('Название задачи', todo.title);
+            todoBtn.textContent = todo.title;
+            updateTodo(todo);
+            showTodo();
         });
     }
 }
