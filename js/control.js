@@ -17,7 +17,7 @@ const startBtn = () => {
     }
 } 
 
-const stopBtn = () => {
+export const stopBtn = () => {
     clearTimeout(state.timerId);
     state.isActive = false;
     btnStart.textContent = 'Старт';
@@ -25,7 +25,7 @@ const stopBtn = () => {
     showTimer(state.timeLeft);
 }
 
-export const changeAtiveBtn = (dataUse) => {
+export const changeActiveBtn = (dataUse) => {
     state.status = dataUse;
     for (let i = 0; i < navigationBtns.length; i++) {
         if (navigationBtns[i].dataset.use === dataUse) {
@@ -43,7 +43,7 @@ export const initControl = () => {
 
     for (let i = 0; i < navigationBtns.length; i++) {
         navigationBtns[i].addEventListener('click', () => {
-            changeAtiveBtn(navigationBtns[i].dataset.use);
+            changeActiveBtn(navigationBtns[i].dataset.use);
             stopBtn();
         })
     }
