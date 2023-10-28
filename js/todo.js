@@ -38,6 +38,15 @@ const updateTodo = (todo) => {
     localStorage.setItem('pomodoro', JSON.stringify(todoList));
 }
 
+const deleteTodo = (todo) => {
+    const todoList = getTodo();
+    const newTodoList = todoList.filter((item) => item.id !== todo.id);
+    if (todo.id === state.activeTodo.id) {
+    state.activeTodo = newTodoList[newTodoList.length - 1];
+    }
+    localStorage.setItem('pomodoro', JSON.stringify(newTodoList));
+}
+
 const createTodoListItem = (todo) => {
     if (todo.id !== 'default') {
         const todoItem = document.createElement('li');
@@ -75,6 +84,12 @@ const createTodoListItem = (todo) => {
             todoBtn.textContent = todo.title;
             updateTodo(todo);
             showTodo();
+        });
+
+        deleteBtn.addEventListener('click', () => {
+            deleteTodo(todo);
+            showTodo();
+            todoItem.remove();
         });
     }
 }
